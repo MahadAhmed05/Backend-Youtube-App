@@ -4,7 +4,7 @@ import bycrypt from "bcrypt";
 
 const userSchema = new Schema(
   {
-    userName: {
+    username: {
       type: String,
       required: true,
       lowercase: true,
@@ -50,10 +50,10 @@ const userSchema = new Schema(
 );
 
 // this will encrypt the password
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  this.password = bycrypt.hash(this.password, 10);
+  this.password = await bycrypt.hash(this.password, 10);
   next();
 });
 
